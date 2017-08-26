@@ -5,7 +5,7 @@ $ java -jar target/words.jar <path_to_dictionary>
 
 ### TESTING
 
-#### for testing only native command line shell should be used
+#### For testing only native command line shell should be used
 
 place words.jar and dictionary.txt (from resources) in the same folder
 
