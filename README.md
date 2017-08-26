@@ -7,9 +7,10 @@ $ java -jar target/words.jar <path_to_dictionary>
 
 #### Note: only native command line shell should be used !
 
-place words.jar and dictionary.txt (from resources) in the same folder
-
+Place words.jar and dictionary.txt (from resources) in the same folder
+Execute:
 $ java -jar words.jar dictionary.txt
+Output:
 ```
 Loading dictionary ...
 Found '279560' words in dictionary\n
