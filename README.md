@@ -11,7 +11,7 @@ Place words.jar and dictionary.txt (from resources) in the same folder<br/>
 
 Execute:
 ```
-$ java -jar words.jar dictionary.txt<br/>
+$ java -jar words.jar dictionary.txt
 ```
 Output:<br/>
 ```
