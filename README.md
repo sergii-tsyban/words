@@ -9,8 +9,10 @@ $ java -jar target/words.jar <path_to_dictionary>
 
 Place words.jar and dictionary.txt (from resources) in the same folder<br/>
 
-Execute:<br/> $ java -jar words.jar dictionary.txt<br/>
-
+Execute:
+```
+$ java -jar words.jar dictionary.txt<br/>
+```
 Output:<br/>
 ```
 Loading dictionary ...
