@@ -32,7 +32,7 @@ public class Main {
         }
         System.out.println(String.format(NON_EMPTY_DICTIONARY_MSG, dictionary.size()));
         WordsChainsApp solverApp = new WordsChainsApp(dictionary);
-        solverApp.process();
+        solverApp.run();
     }
 
     private static Set<String> loadDictionary(String path) {

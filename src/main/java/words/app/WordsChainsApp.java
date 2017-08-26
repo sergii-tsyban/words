@@ -29,18 +29,18 @@ public class WordsChainsApp {
         this.wordsChainsSolver = new WordsChainsSolver(dictionary);
     }
 
-    public void process() {
+    public void run() {
         Console console;
         String from, to;
         console = System.console();
         boolean exit = false;
         while (!exit){
-            from = console.readLine("Start word: ");
-            to = console.readLine("Target word: ");
+            from = console.readLine("Start word: ").trim();
+            to = console.readLine("Target word: ").trim();
             if(validateInput(from, to)){
                 print(wordsChainsSolver.solve(from, to).toString());
             }
-            exit = EXIT_CHAR.equalsIgnoreCase(console.readLine("Exit ? (y/n) : "));
+            exit = EXIT_CHAR.equalsIgnoreCase(console.readLine("Exit ? (y/n) : ").trim());
         }
     }
 

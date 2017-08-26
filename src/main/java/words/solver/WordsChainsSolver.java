@@ -1,6 +1,7 @@
 package words.solver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordsChainsSolver {
 
@@ -14,7 +15,7 @@ public class WordsChainsSolver {
     }
 
     public TreeMap<Integer, List<String>> solve(String from, String to){
-        TaskContext taskToSolve = new TaskContext(from, to, lengthSeparatedDictionary.get(from.length()));
+        TaskToSolve taskToSolve = new TaskToSolve(from, to, lengthSeparatedDictionary.get(from.length()));
         taskToSolve.solve();
         return taskToSolve.stacks;
     }
@@ -46,14 +47,14 @@ public class WordsChainsSolver {
         }
     }
 
-    private static class TaskContext{
+    private static class TaskToSolve {
 
         TreeMap<Integer, List<String>> stacks = new TreeMap<>();
         String from;
         String to;
         Set<String> dictionary;
 
-        public TaskContext(String from, String to, Set<String> dictionary) {
+        public TaskToSolve(String from, String to, Set<String> dictionary) {
             this.from = from;
             this.to = to;
             this.dictionary = dictionary;
@@ -88,14 +89,9 @@ public class WordsChainsSolver {
         }
 
         List<String> findWordsDifferByOneLetter(String last) {
-            List<String> nextWords = new ArrayList<>();
-            for (String w : dictionary) {
-                int diff = wordsDiff(last, w);
-                if(diff == 1){
-                    nextWords.add(w);
-                }
-            }
-            return nextWords;
+            return dictionary.stream()
+                    .filter(w -> wordsDiff(last, w) == 1)
+                    .collect(Collectors.toList());
         }
     }
 }
