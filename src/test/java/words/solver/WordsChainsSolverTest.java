@@ -3,10 +3,7 @@ package words.solver;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,9 +17,11 @@ public class WordsChainsSolverTest {
 
     @Test
     public void testSolveSuccess() {
-        WordsChainsSolver wordsChainsSolver = new WordsChainsSolver(dictionary);
-        List<String> chain = wordsChainsSolver.solve("ruby", "code").firstEntry().getValue();
-        Assert.assertEquals(Arrays.asList("ruby", "rubs", "robs", "rods", "rode", "code"), chain);
+        WordsChainsSolver wordsChainsSolver = new WordsChainsSolverImpl(dictionary);
+        Map<Integer, List<String>> chain = wordsChainsSolver.solve("ruby", "code");
+        Assert.assertTrue(chain.size() == 1);
+        //get chain with size 6
+        Assert.assertEquals(Arrays.asList("ruby", "rubs", "robs", "rods", "rode", "code"), chain.get(6));
     }
 
     @Test
@@ -30,29 +29,32 @@ public class WordsChainsSolverTest {
         //"cat", "cot", "cog", "dog"
         //"cat", "rat", "rag", "dag", "dog"
         //"cat", "rat", "rad", "rag", "dag", "dog"
-        WordsChainsSolver wordsChainsSolver = new WordsChainsSolver(dictionary);
-        TreeMap<Integer, List<String>> chains = wordsChainsSolver.solve("cat", "dog");
+        WordsChainsSolver wordsChainsSolver = new WordsChainsSolverImpl(dictionary);
+        Map<Integer, List<String>> chains = wordsChainsSolver.solve("cat", "dog");
         Assert.assertEquals(3, chains.size());
-        Assert.assertEquals(Arrays.asList("cat", "cot", "cog", "dog"), chains.pollFirstEntry().getValue());
-        Assert.assertEquals(Arrays.asList("cat", "rat", "rag", "dag", "dog"), chains.pollFirstEntry().getValue());
-        Assert.assertEquals(Arrays.asList("cat", "rat", "rad", "rag", "dag", "dog"), chains.pollFirstEntry().getValue());
+        //get chain with size 4
+        Assert.assertEquals(Arrays.asList("cat", "cot", "cog", "dog"), chains.get(4));
+        //get chain with size 5
+        Assert.assertEquals(Arrays.asList("cat", "rat", "rag", "dag", "dog"), chains.get(5));
+        //get chain with size 6
+        Assert.assertEquals(Arrays.asList("cat", "rat", "rad", "rag", "dag", "dog"), chains.get(6));
     }
 
     @Test
     public void testSolveFailure() {
-        WordsChainsSolver wordsChainsSolver = new WordsChainsSolver(dictionary);
+        WordsChainsSolver wordsChainsSolver = new WordsChainsSolverImpl(dictionary);
         Assert.assertTrue(wordsChainsSolver.solve("ruby", "soon").isEmpty());
     }
 
     @Test
     public void testSolveSameWords() {
-        WordsChainsSolver wordsChainsSolver = new WordsChainsSolver(dictionary);
+        WordsChainsSolver wordsChainsSolver = new WordsChainsSolverImpl(dictionary);
         Assert.assertTrue(wordsChainsSolver.solve("ruby", "ruby").isEmpty());
     }
 
     @Test
     public void testSolveNonExistingWords() {
-        WordsChainsSolver wordsChainsSolver = new WordsChainsSolver(dictionary);
+        WordsChainsSolver wordsChainsSolver = new WordsChainsSolverImpl(dictionary);
         Assert.assertTrue(wordsChainsSolver.solve("robe", "cute").isEmpty());
     }
 

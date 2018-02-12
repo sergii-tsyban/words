@@ -3,16 +3,7 @@ package words.app;
 import words.solver.WordsChainsSolver;
 
 import java.io.Console;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class WordsChainsApp {
 
@@ -24,9 +15,9 @@ public class WordsChainsApp {
     private Set<String> dictionary;
     private WordsChainsSolver wordsChainsSolver;
 
-    public WordsChainsApp(Set<String> dictionary){
+    public WordsChainsApp(Set<String> dictionary, WordsChainsSolver wordsChainsSolver){
         this.dictionary = dictionary;
-        this.wordsChainsSolver = new WordsChainsSolver(dictionary);
+        this.wordsChainsSolver = wordsChainsSolver;
     }
 
     public void run() {
@@ -37,34 +28,34 @@ public class WordsChainsApp {
         while (!exit){
             from = console.readLine("Start word: ").trim();
             to = console.readLine("Target word: ").trim();
-            if(validateInput(from, to)){
-                print(wordsChainsSolver.solve(from, to).toString());
+            if(validInput(from, to)){
+                printToConsole(wordsChainsSolver.solve(from, to).toString());
             }
             exit = EXIT_CHAR.equalsIgnoreCase(console.readLine("Exit ? (y/n) : ").trim());
         }
     }
 
-    private final boolean validateInput(String from, String to){
+    private final boolean validInput(String from, String to){
         if(from.length() != to.length()){
-            print(SAME_LENGTH_VIOLATION_MSG);
+            printToConsole(SAME_LENGTH_VIOLATION_MSG);
             return false;
         }
         if(from.length() < 2){
-            print(WORDS_LENGTH_VIOLATION_MSG);
+            printToConsole(WORDS_LENGTH_VIOLATION_MSG);
             return false;
         }
         if(!dictionary.contains(from)){
-            print(String.format(WORD_NOT_FOUND_MSG, from));
+            printToConsole(String.format(WORD_NOT_FOUND_MSG, from));
             return false;
         }
         if(!dictionary.contains(to)){
-            print(String.format(WORD_NOT_FOUND_MSG, to));
+            printToConsole(String.format(WORD_NOT_FOUND_MSG, to));
             return false;
         }
         return true;
     }
 
-    private void print(String msg){
+    private void printToConsole(String msg){
         System.out.println(msg);
     }
 }

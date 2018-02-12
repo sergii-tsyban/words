@@ -1,6 +1,7 @@
 package words.main;
 
 import words.app.WordsChainsApp;
+import words.solver.WordsChainsSolverImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,29 +23,33 @@ public class Main {
 
     public static void main(String[] args) {
         if(args.length < 1){
-            System.out.println(DICTIONARY_FILE_PATH_REQUIRED_MSG);
+            printToConsole(DICTIONARY_FILE_PATH_REQUIRED_MSG);
             return;
         }
         Set<String> dictionary = loadDictionary(args[0]);
         if(dictionary.isEmpty()){
-            System.out.println(EMPTY_DICTIONARY_MSG);
+            printToConsole(EMPTY_DICTIONARY_MSG);
             return;
         }
-        System.out.println(String.format(NON_EMPTY_DICTIONARY_MSG, dictionary.size()));
-        WordsChainsApp solverApp = new WordsChainsApp(dictionary);
+        printToConsole(String.format(NON_EMPTY_DICTIONARY_MSG, dictionary.size()));
+        WordsChainsApp solverApp = new WordsChainsApp(dictionary, new WordsChainsSolverImpl(dictionary));
         solverApp.run();
     }
 
     private static Set<String> loadDictionary(String path) {
-        System.out.println(LOADING_DICTIONARY_MSG);
+        printToConsole(LOADING_DICTIONARY_MSG);
         try(Stream<String> stream = Files.lines(Paths.get(path), UTF_8)) {
             return stream.filter(line -> !line.trim().isEmpty())
                     .filter(line -> line.matches("^[^A-Z].*$")) //omit own names
                     .collect(Collectors.toSet());
         } catch (IOException e){
-            System.out.println(String.format(CANNOT_READ_DICTIONARY_MSG, e.getMessage()));
+            printToConsole(String.format(CANNOT_READ_DICTIONARY_MSG, e.getMessage()));
         }
         return Collections.EMPTY_SET;
+    }
+
+    private static void printToConsole(String msg){
+        System.out.println(msg);
     }
 
 }
